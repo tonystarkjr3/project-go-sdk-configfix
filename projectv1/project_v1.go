@@ -4571,7 +4571,8 @@ type OutputValue struct {
 	Description *string `json:"description,omitempty"`
 
 	// The output value.
-	Value []string `json:"value,omitempty"`
+	// Value []string `json:"value,omitempty"`
+	Value string `json:"value,omitempty"`
 }
 
 // UnmarshalOutputValue unmarshals an instance of OutputValue from the specified map of raw messages.
