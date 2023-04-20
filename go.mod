@@ -1,4 +1,4 @@
-module github.com/IBM/project-go-sdk
+module github.com/tonystarkjr3/project-go-sdk-configfix
 
 go 1.18
 
