@@ -4562,6 +4562,8 @@ func UnmarshalNotificationsPrototypePostResponse(m map[string]json.RawMessage, r
 	return
 }
 
+type ValueType interface{}
+
 // OutputValue : OutputValue struct
 type OutputValue struct {
 	// The variable name.
@@ -4572,7 +4574,7 @@ type OutputValue struct {
 
 	// The output value.
 	// Value []string `json:"value,omitempty"`
-	Value string `json:"value,omitempty"`
+	Value ValueType `json:"value,omitempty"`
 }
 
 // UnmarshalOutputValue unmarshals an instance of OutputValue from the specified map of raw messages.
@@ -4586,12 +4588,24 @@ func UnmarshalOutputValue(m map[string]json.RawMessage, result interface{}) (err
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
-	if err != nil {
-		return
+
+	switch obj.Value.(type) {
+	case string:
+		err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+		if err != nil {
+			return
+		}
+	case []string:
+		err = core.UnmarshalModelSlice(m, "value", &obj.Value, UnmarshalOutputValueMembers)
 	}
+
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
+}
+
+func UnmarshalOutputValueMembers(m map[string]json.RawMessage, result interface{}) (err error) {
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(m["value"]))
+	return err
 }
 
 // PaginationLink : A pagination link.
